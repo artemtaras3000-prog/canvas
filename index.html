@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Важный вопрос! 👀</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe6ea, #ffc0cb);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            padding: 20px;
+            position: relative;
+        }
+
+        #btn-quick-draw {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #d63384;
+            border: 2px solid #d63384;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 90%;
+            width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.6s ease forwards;
+            position: relative;
+            z-index: 5;
+        }
+
+        #page-2, #page-3, #page-4, #page-5, #page-6, #page-7-canvas-overlay, #page-hacker {
+            display: none;
+        }
+
+        #counter {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        h1 {
+            color: #d63384;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px;
+            width: 100%;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-next {
+            background-color: #d63384;
+            color: white;
+            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.3);
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #btn-yes { background-color: #4caf50; color: white; position: absolute; left: 30px; }
+        #btn-no { background-color: #f44336; color: white; position: absolute; right: 30px; }
+
+        .contract-box {
+            background: #fff8e7;
+            border: 3px double #8b5a2b;
+            padding: 25px;
+            border-radius: 10px;
+            color: #3e2723;
+            width: 100%;
+        }
+
+        #result-box {
+            background: #f8f9fa; border-radius: 10px; padding: 20px; font-size: 1.2rem; font-weight: bold; color: #333;
+            min-height: 80px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; border: 1px solid #ddd; width: 100%;
+        }
+
+        .food-list { width: 100%; text-align: left; margin-bottom: 15px; }
+        .food-item { display: flex; align-items: center; background: #f8f9fa; padding: 12px 15px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; border: 1px solid #eee; }
+        .food-item input { margin-right: 15px; width: 20px; height: 20px; }
+
+        .format-options { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+        .format-card { border: 2px solid #eee; border-radius: 15px; padding: 20px; cursor: pointer; background: #fdfdfd; text-align: left;}
+        .format-card.selected { border-color: #4caf50; background: #e8f5e9; }
+
+        /* ПОЛНОЭКРАННЫЙ ИНТЕРФЕЙС ХОЛСТА */
+        #page-7-canvas-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #ffe6ea, #ffc0cb);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        #canvas-container {
+            width: 100%;
+            flex-grow: 1;
+            background: white;
+            border: 3px dashed #d63384;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0; left: 0;
+            background: transparent;
+            touch-action: none;
+        }
+
+        .canvas-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            margin-top: 10px;
+            padding-bottom: 5px;
+        }
+        .btn-back-home { background-color: #d63384; color: white; padding: 12px 25px; font-size: 1rem; border-radius: 50px; }
+        .btn-clear-canvas { background-color: #6c757d; color: white; padding: 12px 20px; font-size: 1rem; border-radius: 50px; }
+
+        .hacker-card { background: #111 !important; border: 2px solid #00ff00; color: #00ff00 !important; font-family: 'Courier New', monospace; }
+        .btn-hacker { background: #00ff00; color: black; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="btn-quick-draw">🎨 Порисовать вдвоём</button>
+
+    <div class="card" id="page-1">
+        <div id="counter">Попыток сказать "нет": 0 🎯</div>
+        <h1>Ты пойдешь со мной гулять? 😇</h1>
+        <div class="buttons" id="p1-buttons">
+            <button id="btn-yes">Да!</button>
+            <button id="btn-no">Нет</button>
+        </div>
+    </div>
+
+    <div class="card hacker-card" id="page-hacker">
+        <h1>⚠️ СИСТЕМНЫЙ СБОЙ</h1>
+        <p style="margin-bottom: 20px;">Контракт создаётся автоматически...</p>
+        <button class="btn-next btn-hacker" id="from-hacker-to-2">Перезагрузка... 🔄</button>
+    </div>
+
+    <div class="card" id="page-2">
+        <h1>Ты выглядишь на все сто... 👀</h1>
+        <button class="btn-next" id="to-page-3">Дальше... ✨</button>
+    </div>
+
+    <div class="card" id="page-3">
+        <div class="contract-box">
+            <div class="contract-title">📜 Официальный контракт</div>
+            <p>Настоящим документом подтверждается, что отмена прогулки невозможна.</p>
+            <h2>...100 РУБЛЕЙ! 😂💸</h2>
+        </div>
+        <button class="btn-next" id="to-page-4">Посмотреть план прогулки 🎲</button>
+    </div>
+
+    <div class="card" id="page-4">
+        <h1>🎲 Генератор планов</h1>
+        <div id="result-box">Нажми на кнопку ниже! 👇</div>
+        <button class="btn-next" id="btn-generate" style="margin-top:0;">Крутить колесо планов</button>
+        <button class="btn-next" id="to-page-5" style="background-color: #4caf50;">А что по еде? 🍕</button>
+    </div>
+
+    <div class="card" id="page-5">
+        <h1>🍕 Что мы будем кушать?</h1>
+        <div class="food-list">
+            <label class="food-item"><input type="checkbox" name="food" value="Шаурма"><span>🌯 Мощная сочная шаурма</span></label>
+            <label class="food-item"><input type="checkbox" name="food" value="Пицца"><span>🍕 Горячая сырная пицца</span></label>
+            <label class="food-item"><input type="checkbox" name="food" value="Бургеры"><span>🍔 Бургеры и картошка фри</span></label>
+        </div>
+        <button class="btn-next" id="to-page-6">Выбрать формат прогулки 🐾</button>
+    </div>
+
+    <div class="card" id="page-6">
+        <h1>🐾 В каком формате идём?</h1>
+        <div class="format-options">
+            <div class="format-card" id="opt-together" onclick="selectFormat('Вдвоём')"><h3>👩‍❤️‍👨 Только вдвоём</h3></div>
+            <div class="format-card" id="opt-dogs" onclick="selectFormat('С собаками')"><h3>🦮 Вместе с собаками!</h3></div>
+        </div>
+        <button class="btn-next" id="open-canvas-from-flow" style="background-color: #4caf50;">Открыть Секретный Холст 🎨</button>
+    </div>
+
+    <div id="page-7-canvas-overlay">
+        <h3 style="color: #d63384; text-align: center; margin-bottom: 5px;">🎨 Наше общее пространство</h3>
+        <div id="canvas-container">
+            <canvas id="live-canvas"></canvas>
+        </div>
+        <div class="canvas-controls">
+            <button class="btn-back-home" id="btn-exit-canvas">Назад ↩️</button>
+            <button class="btn-clear-canvas" id="btn-clear">Очистить 🗑️</button>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA-g4MW0wXtXIdRd04-OdVPY5w-zIFb2b0",
+            authDomain: "walk-canvas-project.firebaseapp.com",
+            databaseURL: "https://walk-canvas-project-default-rtdb.firebaseio.com",
+            projectId: "walk-canvas-project",
+            storageBucket: "walk-canvas-project.firebasestorage.app",
+            messagingSenderId: "609880698980",
+            appId: "1:609880698980:web:311320d1256c2c8365ef71"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const drawingRef = database.ref('live_walk_draw');
+
+        // Элементы страниц
+        const pages = {
+            p1: document.getElementById('page-1'), p2: document.getElementById('page-2'),
+            p3: document.getElementById('page-3'), p4: document.getElementById('page-4'),
+            p5: document.getElementById('page-5'), p6: document.getElementById('page-6'),
+            pHacker: document.getElementById('page-hacker'), overlay: document.getElementById('page-7-canvas-overlay')
+        };
+
+        const btnQuickDraw = document.getElementById('btn-quick-draw');
+        const btnYes = document.getElementById('btn-yes'), btnNo = document.getElementById('btn-no'), p1Buttons = document.getElementById('p1-buttons');
+        const counterDiv = document.getElementById('counter'), resultBox = document.getElementById('result-box'), btnGenerate = document.getElementById('btn-generate');
+
+        let missCount = 0; let chosenFormat = "";
+        const walkPlans = ["🍟 Купим шаурму", "🏃‍♂️ Обойдем дом вокруг 15 раз", "💸 Потратим 100 рублей на мороженое"];
+
+        // Данные холста
+        const canvas = document.getElementById('live-canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0; let lastY = 0;
+        let localPoints = []; 
+
+        function resizeCanvas() {
+            const container = document.getElementById('canvas-container');
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            
+            if (w > 0 && h > 0) {
+                canvas.width = w;
+                canvas.height = h;
+                canvas.style.width = w + 'px';
+                canvas.style.height = h + 'px';
+            }
+        }
+
+        function showCanvas() {
+            Object.values(pages).forEach(p => p.style.display = 'none');
+            btnQuickDraw.style.display = 'none';
+            pages.overlay.style.display = 'flex';
+            resizeCanvas();
+            redrawAll();
+        }
+
+        function hideCanvas() {
+            pages.overlay.style.display = 'none';
+            btnQuickDraw.style.display = 'block';
+            pages.p1.style.display = 'flex';
+        }
+
+        btnQuickDraw.addEventListener('click', showCanvas);
+        document.getElementById('open-canvas-from-flow').addEventListener('click', () => {
+            if(!chosenFormat) { alert("Выбери формат прогулки! 🐾"); return; }
+            showCanvas();
+        });
+        document.getElementById('btn-exit-canvas').addEventListener('click', hideCanvas);
+
+        // Логика кнопок квеста
+        btnNo.addEventListener('mouseenter', () => {
+            missCount++;
+            counterDiv.innerHTML = `Попыток сказать "нет": ${missCount} 🎯`;
+            const randomX = Math.floor(Math.random() * (p1Buttons.offsetWidth - btnNo.offsetWidth));
+            const randomY = Math.floor(Math.random() * 120) - 40;
+            btnNo.style.left = randomX + 'px'; btnNo.style.top = randomY + 'px';
+        });
+        btnNo.addEventListener('click', () => { pages.p1.style.display = 'none'; btnQuickDraw.style.display = 'none'; document.body.style.background = '#111'; pages.pHacker.style.display = 'flex'; });
+        document.getElementById('from-hacker-to-2').addEventListener('click', () => { pages.pHacker.style.display = 'none'; btnQuickDraw.style.display = 'block'; document.body.style.background = "linear-gradient(135deg, #ffe6ea, #ffc0cb)"; pages.p2.style.display = 'flex'; });
+        btnYes.addEventListener('click', () => { pages.p1.style.display = 'none'; btnQuickDraw.style.display = 'none'; pages.p2.style.display = 'flex'; });
+        document.getElementById('to-page-3').addEventListener('click', () => { pages.p2.style.display = 'none'; pages.p3.style.display = 'flex'; });
+        document.getElementById('to-page-4').addEventListener('click', () => { pages.p3.style.display = 'none'; pages.p4.style.display = 'flex'; });
+        document.getElementById('to-page-5').addEventListener('click', () => { pages.p4.style.display = 'none'; pages.p5.style.display = 'flex'; });
+        document.getElementById('to-page-6').addEventListener('click', () => {
+            if(document.querySelectorAll('input[name="food"]:checked').length === 0) { alert("Выбери еду! 🍕"); return; }
+            pages.p5.style.display = 'none'; pages.p6.style.display = 'flex';
+        });
+
+        function selectFormat(format) {
+            chosenFormat = format;
+            document.getElementById('opt-together').classList.remove('selected');
+            document.getElementById('opt-dogs').classList.remove('selected');
+            document.getElementById(format === 'Вдвоём' ? 'opt-together' : 'opt-dogs').classList.add('selected');
+        }
+
+        btnGenerate.addEventListener('click', () => {
+            let ticks = 0; btnGenerate.disabled = true;
+            const interval = setInterval(() => {
+                resultBox.innerHTML = walkPlans[Math.floor(Math.random() * walkPlans.length)]; ticks++;
+                if (ticks > 5) { clearInterval(interval); resultBox.innerHTML = `✨ ПЛАН: ${walkPlans[Math.floor(Math.random() * walkPlans.length)]}`; btnGenerate.disabled = false; }
+            }, 100);
+        });
+
+        // КООРДИНАТЫ В %
+        function getCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+            const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+            return {
+                x: ((clientX - rect.left) / rect.width) * 100,
+                y: ((clientY - rect.top) / rect.height) * 100
+            };
+        }
+
+        function drawLineLocal(x1, y1, x2, y2) {
+            ctx.strokeStyle = '#d63384';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo((x1 / 100) * canvas.width, (y1 / 100) * canvas.height);
+            ctx.lineTo((x2 / 100) * canvas.width, (y2 / 100) * canvas.height);
+            ctx.stroke();
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const coords = getCoords(e);
+            lastX = coords.x;
+            lastY = coords.y;
+            drawLineLocal(lastX, lastY, lastX, lastY);
+            drawingRef.push({ x1: lastX, y1: lastY, x2: lastX, y2: lastY });
+        }
+
+        function moveDraw(e) {
+            if (!isDrawing) return;
+            const coords = getCoords(e);
+            
+            // Рисуем мгновенно локально
+            drawLineLocal(lastX, lastY, coords.x, coords.y);
+            
+            // Теперь шлем без искусственных задержек, чтобы линия не разрывалась на точки
+            drawingRef.push({ x1: lastX, y1: lastY, x2: coords.x, y2: coords.y });
+            
+            lastX = coords.x;
+            lastY = coords.y;
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', moveDraw);
+        window.addEventListener('mouseup', stopDraw);
+
+        canvas.addEventListener('touchstart', (e) => { startDraw(e); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('touchmove', (e) => { moveDraw(e); e.preventDefault(); }, {passive: false});
+        window.addEventListener('touchend', stopDraw);
+
+        function redrawAll() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            localPoints.forEach(p => drawLineLocal(p.x1, p.y1, p.x2, p.y2));
+        }
+
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            if (confirm("Очистить холст? 🧹")) { drawingRef.set(null); }
+        });
+
+        // СИНХРОНИЗАЦИЯ С СЕРВЕРОМ
+        drawingRef.on('child_added', (snapshot) => {
+            const line = snapshot.val();
+            
+            // Проверяем уникальность координаты, чтобы не дублировать локальные линии
+            const exists = localPoints.some(p => p.x1 === line.x1 && p.y1 === line.y1 && p.x2 === line.x2 && p.y2 === line.y2);
+            if (!exists) {
+                localPoints.push(line);
+                if (pages.overlay.style.display === 'flex') {
+                    drawLineLocal(line.x1, line.y1, line.x2, line.y2);
+                }
+            }
+        });
+
+        drawingRef.on('value', (snapshot) => {
+            if (!snapshot.exists()) {
+                localPoints = [];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (pages.overlay.style.display === 'flex') {
+                resizeCanvas();
+                redrawAll();
+            }
+        });
+    </script>
+</body>
+</html>
