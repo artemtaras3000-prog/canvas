@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pixel Point 1024x1024 | Важный вопрос!</title>
+    <title>Pixel Point ❤️ Миша</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
-    <style> 
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -16,166 +15,26 @@
         }
 
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ffe6ea, #ffc0cb);
+            background: #0a0a1a;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
-            padding: 20px;
-            position: relative;
-        }
-
-        #btn-quick-draw {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.9);
-            color: #d63384;
-            border: 2px solid #d63384;
-            padding: 10px 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            z-index: 10;
-        }
-
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 450px;
-            max-width: 90%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 5;
         }
 
-        #page-2, #page-3, #page-4, #page-5, #page-6, #page-7-canvas-overlay, #page-7-pixel-overlay, #page-hacker { display: none; }
-
-        #counter {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        h1 {
-            color: #d63384;
-            margin-bottom: 30px;
-            font-size: 2rem;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            position: relative;
-            min-height: 60px;
-            width: 100%;
-        }
-
-        button {
-            padding: 15px 35px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .btn-next {
-            background-color: #d63384;
-            color: white;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        #btn-yes { background-color: #4caf50; position: absolute; left: 30px; }
-        #btn-no { background-color: #f44336; position: absolute; right: 30px; }
-
-        .contract-box {
-            background: #fff8e7;
-            border: 3px double #8b5a2b;
-            padding: 25px;
-            border-radius: 10px;
-            width: 100%;
-        }
-
-        #result-box {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            min-height: 80px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            width: 100%;
-        }
-
-        .food-list { width: 100%; text-align: left; margin-bottom: 15px; }
-        .food-item { display: flex; align-items: center; background: #f8f9fa; padding: 12px 15px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; }
-        .food-item input { margin-right: 15px; width: 20px; height: 20px; }
-
-        .format-options { display: flex; flex-direction: column; gap: 15px; width: 100%; }
-        .format-card { border: 2px solid #eee; border-radius: 15px; padding: 20px; cursor: pointer; background: #fdfdfd; }
-        .format-card.selected { border-color: #4caf50; background: #e8f5e9; }
-
-        /* ОБЫЧНЫЙ ХОЛСТ */
-        #page-7-canvas-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #ffe6ea, #ffc0cb);
-            z-index: 100;
-            display: none;
-            flex-direction: column;
-            padding: 10px;
-        }
-        #canvas-container {
-            width: 100%;
-            flex-grow: 1;
-            background: white;
-            border: 3px dashed #d63384;
-            border-radius: 15px;
-            position: relative;
-        }
-        #live-canvas {
-            position: absolute;
-            top: 0; left: 0;
-            background: white;
-            touch-action: none;
-        }
-
-        /* PIXEL POINT ХОЛСТ 1024x1024 */
-        #page-7-pixel-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: #0a0a1a;
-            z-index: 100;
-            display: none;
-            flex-direction: column;
-            padding: 10px;
-        }
+        /* Верхняя панель */
         .pixel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(0,0,0,0.8);
             padding: 8px 15px;
-            border-radius: 15px;
-            margin-bottom: 8px;
             flex-wrap: wrap;
             gap: 10px;
+            z-index: 10;
         }
+
         .event-badge {
             background: linear-gradient(135deg, #ff6b6b, #ee5a24);
             padding: 8px 15px;
@@ -184,52 +43,58 @@
             color: white;
             font-size: 0.9rem;
         }
-        .event-deadline {
-            background: #16213e;
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-family: monospace;
-            font-weight: bold;
-            color: #ffaa44;
-        }
-        .pixel-timer {
-            background: #16213e;
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-family: monospace;
-            font-weight: bold;
-            color: #00ff88;
-        }
+
         .pixel-stats {
             background: #16213e;
             padding: 8px 15px;
             border-radius: 30px;
             font-size: 0.9rem;
             color: #ffcc00;
+            font-family: monospace;
         }
+
+        .clear-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .clear-btn:hover {
+            background: #d32f2f;
+        }
+
+        /* Холст */
         .pixel-canvas-container {
-            width: 100%;
-            flex-grow: 1;
+            flex: 1;
             background: #0f0f1a;
             border: 3px solid #00ff88;
+            margin: 5px 10px 10px 10px;
             border-radius: 15px;
-            position: relative;
             overflow: auto;
             cursor: crosshair;
+            position: relative;
         }
+
         #pixel-canvas {
             background: white;
             display: block;
             margin: 0 auto;
-            box-shadow: 0 0 20px rgba(0,255,136,0.3);
         }
+
+        /* Палитра цветов */
         .pixel-controls {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 8px;
+            padding: 8px;
             flex-wrap: wrap;
+            background: rgba(0,0,0,0.5);
         }
+
         .pixel-color-palette {
             display: flex;
             gap: 8px;
@@ -238,147 +103,115 @@
             padding: 8px;
             border-radius: 40px;
         }
+
         .pixel-color-btn {
             width: 35px;
             height: 35px;
             border-radius: 8px;
             cursor: pointer;
             border: 2px solid white;
+            transition: transform 0.1s;
         }
+
         .pixel-color-btn.active {
             border: 3px solid #00ff88;
             transform: scale(1.1);
         }
 
-        .canvas-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .btn-back-home, .btn-clear-canvas, .mode-switch-btn {
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            border: none;
+        /* ВСПЛЫВАЮЩАЯ ТАБЛИЧКА "Миша, я люблю тебя!" */
+        .love-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 30px;
+            font-size: 2.5rem;
             font-weight: bold;
+            box-shadow: 0 0 50px rgba(255, 107, 107, 0.8);
+            z-index: 10000;
+            display: none;
+            text-align: center;
+            animation: popIn 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border: 3px solid white;
         }
-        .btn-back-home { background-color: #d63384; color: white; }
-        .btn-clear-canvas { background-color: #6c757d; color: white; }
-        .mode-switch-btn { background-color: #4caf50; color: white; }
 
-        .hacker-card { background: #111 !important; border: 2px solid #00ff00; color: #00ff00 !important; font-family: 'Courier New', monospace; }
-        .btn-hacker { background: #00ff00; color: black; }
+        .love-popup .sub {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes popOut {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+        }
+
+        /* Онлайн-счётчик */
+        .online-counter {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            padding: 5px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #00ffcc;
+            font-family: monospace;
+            z-index: 1000;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-<button id="btn-quick-draw">🎨 Порисовать вдвоём</button>
+<div class="online-counter">👥 Онлайн: <span id="onlineCount">0</span></div>
 
-<!-- СТРАНИЦЫ КВЕСТА -->
-<div class="card" id="page-1">
-    <div id="counter">Попыток сказать "нет": 0 🎯</div>
-    <h1>Ты пойдешь со мной гулять? 😇</h1>
-    <div class="buttons" id="p1-buttons">
-        <button id="btn-yes">Да!</button>
-        <button id="btn-no">Нет</button>
-    </div>
+<!-- Всплывающая табличка -->
+<div id="lovePopup" class="love-popup">
+    ❤️ Миша, я люблю тебя! ❤️
+    <div class="sub">💖 Ты самый лучший! 💖</div>
 </div>
 
-<div class="card hacker-card" id="page-hacker">
-    <h1>⚠️ СИСТЕМНЫЙ СБОЙ</h1>
-    <p>Контракт создаётся автоматически...</p>
-    <button class="btn-next btn-hacker" id="from-hacker-to-2">Перезагрузка... 🔄</button>
+<!-- Верхняя панель -->
+<div class="pixel-header">
+    <div class="event-badge">⚡ PIXEL POINT ❤️</div>
+    <div class="pixel-stats" id="pixel-stats">🎨 Пикселей: 0</div>
+    <button class="clear-btn" id="btn-clear-pixel">🗑️ Очистить всё</button>
 </div>
 
-<div class="card" id="page-2">
-    <h1>Ты выглядишь на все сто... 👀</h1>
-    <button class="btn-next" id="to-page-3">Дальше... ✨</button>
+<!-- Холст -->
+<div class="pixel-canvas-container" id="pixel-canvas-container">
+    <canvas id="pixel-canvas"></canvas>
 </div>
 
-<div class="card" id="page-3">
-    <div class="contract-box">
-        <div class="contract-title">📜 Официальный контракт</div>
-        <p>Настоящим документом подтверждается, что отмена прогулки невозможна.</p>
-        <h2>...100 РУБЛЕЙ! 😂💸</h2>
-    </div>
-    <button class="btn-next" id="to-page-4">Посмотреть план прогулки 🎲</button>
-</div>
-
-<div class="card" id="page-4">
-    <h1>🎲 Генератор планов</h1>
-    <div id="result-box">Нажми на кнопку! 👇</div>
-    <button class="btn-next" id="btn-generate">Крутить колесо планов</button>
-    <button class="btn-next" id="to-page-5" style="background-color:#4caf50;">А что по еде? 🍕</button>
-</div>
-
-<div class="card" id="page-5">
-    <h1>🍕 Что мы будем кушать?</h1>
-    <div class="food-list">
-        <label class="food-item"><input type="checkbox" name="food" value="Шаурма"><span>🌯 Шаурма</span></label>
-        <label class="food-item"><input type="checkbox" name="food" value="Пицца"><span>🍕 Пицца</span></label>
-        <label class="food-item"><input type="checkbox" name="food" value="Бургеры"><span>🍔 Бургеры</span></label>
-    </div>
-    <button class="btn-next" id="to-page-6">Выбрать формат прогулки 🐾</button>
-</div>
-
-<div class="card" id="page-6">
-    <h1>🐾 В каком формате идём?</h1>
-    <div class="format-options">
-        <div class="format-card" id="opt-together"><h3>👩‍❤️‍👨 Только вдвоём</h3></div>
-        <div class="format-card" id="opt-dogs"><h3>🦮 Вместе с собаками!</h3></div>
-    </div>
-    <button class="btn-next" id="open-canvas-from-flow" style="background-color:#4caf50;">Открыть Секретный Холст 🎨</button>
-</div>
-
-<!-- ОБЫЧНЫЙ ХОЛСТ -->
-<div id="page-7-canvas-overlay">
-    <h3 style="color:#d63384; text-align:center;">🎨 Обычный холст</h3>
-    <div id="canvas-container"><canvas id="live-canvas"></canvas></div>
-    <div class="canvas-controls">
-        <button class="btn-back-home" id="btn-exit-canvas">Назад ↩️</button>
-        <button class="btn-clear-canvas" id="btn-clear">Очистить 🗑️</button>
-        <button class="mode-switch-btn" id="switch-to-pixel">🎮 Pixel Point 1024x1024</button>
-    </div>
-</div>
-
-<!-- PIXEL POINT 1024x1024 -->
-<div id="page-7-pixel-overlay">
-    <div class="pixel-header">
-        <div class="event-badge">⚡ PIXEL POINT EVENT ⚡</div>
-        <div class="event-deadline" id="pixel-deadline">⏳ Закрытие: 19.07.2026</div>
-        <div class="pixel-timer" id="pixel-cooldown">✅ ГОТОВ!</div>
-        <div class="pixel-stats" id="pixel-stats">🎨 Пикселей: 0 / 1,048,576</div>
-        <button class="mode-switch-btn" id="switch-to-normal" style="background:#d63384;">← Обычный холст</button>
-    </div>
-    <div class="pixel-canvas-container" id="pixel-canvas-container">
-        <canvas id="pixel-canvas"></canvas>
-    </div>
-    <div class="pixel-controls">
-        <div class="pixel-color-palette" id="pixel-color-palette">
-            <div class="pixel-color-btn" style="background:#d63384" data-color="#d63384"></div>
-            <div class="pixel-color-btn" style="background:#ff0000" data-color="#ff0000"></div>
-            <div class="pixel-color-btn" style="background:#ff6600" data-color="#ff6600"></div>
-            <div class="pixel-color-btn" style="background:#ffcc00" data-color="#ffcc00"></div>
-            <div class="pixel-color-btn" style="background:#00cc00" data-color="#00cc00"></div>
-            <div class="pixel-color-btn" style="background:#0099ff" data-color="#0099ff"></div>
-            <div class="pixel-color-btn" style="background:#6600cc" data-color="#6600cc"></div>
-            <div class="pixel-color-btn" style="background:#ffffff" data-color="#ffffff"></div>
-            <div class="pixel-color-btn" style="background:#000000" data-color="#000000"></div>
-        </div>
-        <button class="btn-clear-canvas" id="btn-clear-pixel" style="background:#f44336;">🗑️ Очистить всё</button>
+<!-- Палитра цветов -->
+<div class="pixel-controls">
+    <div class="pixel-color-palette" id="pixel-color-palette">
+        <div class="pixel-color-btn" style="background:#d63384" data-color="#d63384"></div>
+        <div class="pixel-color-btn" style="background:#ff0000" data-color="#ff0000"></div>
+        <div class="pixel-color-btn" style="background:#ff6600" data-color="#ff6600"></div>
+        <div class="pixel-color-btn" style="background:#ffcc00" data-color="#ffcc00"></div>
+        <div class="pixel-color-btn" style="background:#00cc00" data-color="#00cc00"></div>
+        <div class="pixel-color-btn" style="background:#0099ff" data-color="#0099ff"></div>
+        <div class="pixel-color-btn" style="background:#6600cc" data-color="#6600cc"></div>
+        <div class="pixel-color-btn" style="background:#ffffff" data-color="#ffffff"></div>
+        <div class="pixel-color-btn" style="background:#000000" data-color="#000000"></div>
     </div>
 </div>
 
 <script>
-    // ========== FIREBASE ==========
+    // ==================== FIREBASE ====================
     const firebaseConfig = {
         apiKey: "AIzaSyA-g4MW0wXtXIdRd04-OdVPY5w-zIFb2b0",
         authDomain: "walk-canvas-project.firebaseapp.com",
@@ -389,400 +222,151 @@
         appId: "1:609880698980:web:311320d1256c2c8365ef71"
     };
     firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    const drawingRef = database.ref('live_walk_draw');
-    const pixelRef = database.ref('pixel_point_1024x1024');
-    const cooldownRef = database.ref('pixel_cooldown_global');
+    const db = firebase.database();
+    const pixelRef = db.ref('pixel_love_forever');
+    const onlineRef = db.ref('online_love');
 
-    // ========== НАВИГАЦИЯ ПО СТРАНИЦАМ ==========
-    const pages = {
-        p1: document.getElementById('page-1'), p2: document.getElementById('page-2'),
-        p3: document.getElementById('page-3'), p4: document.getElementById('page-4'),
-        p5: document.getElementById('page-5'), p6: document.getElementById('page-6'),
-        pHacker: document.getElementById('page-hacker'),
-        overlay: document.getElementById('page-7-canvas-overlay'),
-        pixelOverlay: document.getElementById('page-7-pixel-overlay')
-    };
-
-    const btnQuickDraw = document.getElementById('btn-quick-draw');
-    const btnYes = document.getElementById('btn-yes');
-    const btnNo = document.getElementById('btn-no');
-    const p1Buttons = document.getElementById('p1-buttons');
-    const counterDiv = document.getElementById('counter');
-    const resultBox = document.getElementById('result-box');
-    const btnGenerate = document.getElementById('btn-generate');
-
-    let missCount = 0;
-    let chosenFormat = "";
-    const walkPlans = ["🍟 Купим шаурму", "🏃‍♂️ Обойдем дом 15 раз", "💸 Мороженое на 100р"];
-
-    // Выбор формата
-    document.getElementById('opt-together').onclick = () => {
-        chosenFormat = 'Вдвоём';
-        document.getElementById('opt-together').classList.add('selected');
-        document.getElementById('opt-dogs').classList.remove('selected');
-    };
-    document.getElementById('opt-dogs').onclick = () => {
-        chosenFormat = 'С собаками';
-        document.getElementById('opt-dogs').classList.add('selected');
-        document.getElementById('opt-together').classList.remove('selected');
-    };
-
-    // Квестовые кнопки
-    btnNo.onmouseenter = () => {
-        missCount++;
-        counterDiv.innerHTML = `Попыток сказать "нет": ${missCount} 🎯`;
-        const containerRect = p1Buttons.getBoundingClientRect();
-        const btnRect = btnNo.getBoundingClientRect();
-        const maxX = Math.max(0, containerRect.width - btnRect.width);
-        const maxY = 80;
-        const randomX = Math.min(maxX, Math.floor(Math.random() * (maxX + 50)));
-        const randomY = Math.min(maxY, Math.floor(Math.random() * maxY) - 20);
-        btnNo.style.left = randomX + 'px';
-        btnNo.style.top = randomY + 'px';
-    };
-    btnNo.onclick = () => {
-        pages.p1.style.display = 'none';
-        btnQuickDraw.style.display = 'none';
-        document.body.style.background = '#111';
-        pages.pHacker.style.display = 'flex';
-    };
-    document.getElementById('from-hacker-to-2').onclick = () => {
-        pages.pHacker.style.display = 'none';
-        btnQuickDraw.style.display = 'block';
-        document.body.style.background = "linear-gradient(135deg, #ffe6ea, #ffc0cb)";
-        pages.p2.style.display = 'flex';
-    };
-    btnYes.onclick = () => {
-        pages.p1.style.display = 'none';
-        btnQuickDraw.style.display = 'none';
-        pages.p2.style.display = 'flex';
-    };
-    document.getElementById('to-page-3').onclick = () => { pages.p2.style.display = 'none'; pages.p3.style.display = 'flex'; };
-    document.getElementById('to-page-4').onclick = () => { pages.p3.style.display = 'none'; pages.p4.style.display = 'flex'; };
-    document.getElementById('to-page-5').onclick = () => { pages.p4.style.display = 'none'; pages.p5.style.display = 'flex'; };
-    document.getElementById('to-page-6').onclick = () => {
-        if(document.querySelectorAll('input[name="food"]:checked').length === 0) { alert("Выбери еду! 🍕"); return; }
-        pages.p5.style.display = 'none'; pages.p6.style.display = 'flex';
-    };
-    btnGenerate.onclick = () => {
-        let ticks = 0; btnGenerate.disabled = true;
-        const interval = setInterval(() => {
-            resultBox.innerHTML = walkPlans[Math.floor(Math.random() * walkPlans.length)];
-            ticks++;
-            if (ticks > 5) { clearInterval(interval); resultBox.innerHTML = `✨ ПЛАН: ${walkPlans[Math.floor(Math.random() * walkPlans.length)]}`; btnGenerate.disabled = false; }
-        }, 100);
-    };
-    document.getElementById('open-canvas-from-flow').onclick = () => {
-        if(!chosenFormat) { alert("Выбери формат прогулки! 🐾"); return; }
-        pages.p6.style.display = 'none';
-        pages.overlay.style.display = 'flex';
-        setTimeout(() => { resizeCanvas(); redrawAll(); }, 100);
-    };
-
-    // ========== ОБЫЧНЫЙ ХОЛСТ (кисть) ==========
-    const canvas = document.getElementById('live-canvas');
-    const ctx = canvas.getContext('2d');
-    let isDrawing = false;
-    let lastX = 0, lastY = 0;
-    let localPoints = [];
-
-    function resizeCanvas() {
-        const container = document.getElementById('canvas-container');
-        const w = container.clientWidth, h = container.clientHeight;
-        if (w > 0 && h > 0) {
-            canvas.width = w;
-            canvas.height = h;
-            canvas.style.width = w + 'px';
-            canvas.style.height = h + 'px';
-        }
-    }
-    function drawLineLocal(x1,y1,x2,y2) {
-        ctx.beginPath();
-        ctx.moveTo((x1/100)*canvas.width, (y1/100)*canvas.height);
-        ctx.lineTo((x2/100)*canvas.width, (y2/100)*canvas.height);
-        ctx.strokeStyle = '#d63384';
-        ctx.lineWidth = 5;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-    }
-    function getCoords(e) {
-        const rect = canvas.getBoundingClientRect();
-        let clientX = e.clientX || (e.touches?.[0]?.clientX || 0);
-        let clientY = e.clientY || (e.touches?.[0]?.clientY || 0);
-        return {
-            x: ((clientX - rect.left)/rect.width)*100,
-            y: ((clientY - rect.top)/rect.height)*100
-        };
-    }
-    function startDraw(e) {
-        isDrawing = true;
-        const coords = getCoords(e);
-        lastX = coords.x; lastY = coords.y;
-        drawLineLocal(lastX,lastY,lastX,lastY);
-        drawingRef.push({ x1:lastX,y1:lastY,x2:lastX,y2:lastY });
-        e.preventDefault();
-    }
-    function moveDraw(e) {
-        if (!isDrawing) return;
-        const coords = getCoords(e);
-        drawLineLocal(lastX,lastY,coords.x,coords.y);
-        drawingRef.push({ x1:lastX,y1:lastY,x2:coords.x,y2:coords.y });
-        lastX = coords.x; lastY = coords.y;
-        e.preventDefault();
-    }
-    function stopDraw() { isDrawing = false; }
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', moveDraw);
-    window.addEventListener('mouseup', stopDraw);
-    canvas.addEventListener('touchstart', startDraw, {passive:false});
-    canvas.addEventListener('touchmove', moveDraw, {passive:false});
-    window.addEventListener('touchend', stopDraw);
-    function redrawAll() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        localPoints.forEach(p => drawLineLocal(p.x1,p.y1,p.x2,p.y2));
-    }
-    document.getElementById('btn-clear').onclick = () => { if(confirm("Очистить?")) drawingRef.set(null); };
-    drawingRef.on('child_added', (snap) => {
-        const line = snap.val();
-        if(!localPoints.some(p=>p.x1===line.x1 && p.y1===line.y1 && p.x2===line.x2 && p.y2===line.y2)) {
-            localPoints.push(line);
-            if(pages.overlay.style.display === 'flex') drawLineLocal(line.x1,line.y1,line.x2,line.y2);
+    // ==================== ОНЛАЙН ====================
+    let myId = 'u_' + Date.now() + '_' + Math.random();
+    let onlineFlag = false;
+    const onlineSpan = document.getElementById('onlineCount');
+    db.ref('.info/connected').on('value', snap => {
+        if (snap.val() === true && !onlineFlag) {
+            onlineRef.child(myId).set(true);
+            onlineRef.child(myId).onDisconnect().remove();
+            onlineFlag = true;
         }
     });
-    drawingRef.on('value', (snap) => { if(!snap.exists()) { localPoints = []; ctx.clearRect(0,0,canvas.width,canvas.height); } });
-    window.addEventListener('resize', () => { if(pages.overlay.style.display === 'flex') { resizeCanvas(); redrawAll(); } });
-    document.getElementById('btn-exit-canvas').onclick = () => {
-        pages.overlay.style.display = 'none';
-        pages.p1.style.display = 'flex';
-        btnQuickDraw.style.display = 'block';
-    };
-    btnQuickDraw.onclick = () => {
-        pages.p1.style.display = 'none';
-        btnQuickDraw.style.display = 'none';
-        pages.overlay.style.display = 'flex';
-        setTimeout(() => { resizeCanvas(); redrawAll(); }, 100);
-    };
+    onlineRef.on('value', snap => {
+        let cnt = snap.numChildren();
+        onlineSpan.innerText = cnt === 0 ? 1 : cnt;
+    });
 
-    // ========== PIXEL POINT 1024x1024 ==========
-    const PIXEL_W = 1024;
-    const PIXEL_H = 1024;
-    const PX_SIZE = 1;          // 1 пиксель на экране = 1 реальный пиксель, но масштаб через zoom/scroll
-    const pixelCanvas = document.getElementById('pixel-canvas');
-    let pixelCtx = pixelCanvas.getContext('2d');
-    let pixelGrid = {};
-    let currentPixelColor = '#d63384';
-    let canPlacePixel = true;
-    let cooldownSeconds = 0;
-    let cooldownInterval = null;
-    let eventClosed = false;
+    // ==================== ХОЛСТ ====================
+    const PW = 1024, PH = 1024, DS = 2;
+    const canvas = document.getElementById('pixel-canvas');
+    let ctx = canvas.getContext('2d');
+    let grid = {};
+    let currentColor = '#d63384';
 
-    // ---- ТАЙМЕР ДО 19 ИЮЛЯ 2026 ----
-    const DEADLINE = new Date(2026, 6, 19, 23, 59, 59);
-    function updateDeadline() {
-        const now = new Date();
-        const diff = DEADLINE - now;
-        const deadlineElem = document.getElementById('pixel-deadline');
-        if (diff <= 0) {
-            deadlineElem.innerHTML = '🔒 ХОЛСТ ЗАКРЫТ НАВСЕГДА';
-            deadlineElem.style.background = '#aa2222';
-            eventClosed = true;
-            if (pages.pixelOverlay.style.display === 'flex') showEventClosedOverlay();
-            return;
-        }
-        eventClosed = false;
-        const days = Math.floor(diff / 86400000);
-        const hours = Math.floor((diff % 86400000) / 3600000);
-        const minutes = Math.floor((diff % 3600000) / 60000);
-        deadlineElem.innerHTML = `⏳ Закрытие: 19.07.2026 (${days}д ${hours}ч ${minutes}м)`;
-        deadlineElem.style.background = '#16213e';
-        if (pages.pixelOverlay.style.display === 'flex' && document.getElementById('pixel-closed-overlay'))
-            document.getElementById('pixel-closed-overlay')?.remove();
-    }
-    setInterval(updateDeadline, 1000);
-    updateDeadline();
+    // ==================== ВСПЛЫВАЮЩАЯ ТАБЛИЧКА ====================
+    const lovePopup = document.getElementById('lovePopup');
+    let popupTimeout = null;
 
-    function showEventClosedOverlay() {
-        let overlay = document.getElementById('pixel-closed-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'pixel-closed-overlay';
-            overlay.style.position = 'absolute';
-            overlay.style.top = 0;
-            overlay.style.left = 0;
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.background = 'rgba(0,0,0,0.9)';
-            overlay.style.display = 'flex';
-            overlay.style.alignItems = 'center';
-            overlay.style.justifyContent = 'center';
-            overlay.style.flexDirection = 'column';
-            overlay.style.color = 'white';
-            overlay.style.fontSize = '2rem';
-            overlay.style.zIndex = 1000;
-            overlay.innerHTML = '<div>🔒 ИВЕНТ ЗАВЕРШЁН 🔒</div><div style="font-size:1rem; margin-top:10px;">Pixel Point был доступен до 19 июля 2026</div>';
-            document.getElementById('pixel-canvas-container').appendChild(overlay);
-        }
+    function showLovePopup() {
+        // Показываем табличку
+        lovePopup.style.display = 'block';
+        lovePopup.style.animation = 'popIn 0.3s ease';
+
+        // Убираем старый таймер
+        if (popupTimeout) clearTimeout(popupTimeout);
+
+        // Через 2 секунды скрываем с анимацией
+        popupTimeout = setTimeout(() => {
+            lovePopup.style.animation = 'popOut 0.3s ease';
+            setTimeout(() => {
+                lovePopup.style.display = 'none';
+                lovePopup.style.animation = 'popIn 0.3s ease';
+            }, 300);
+        }, 2000);
     }
 
-    function initPixelCanvasSize() {
-        // 1024×1024 пикселя, каждый отображается 2×2px для удобства (чтобы влезло в экран)
-        const displaySize = 2;
-        pixelCanvas.width = PIXEL_W * displaySize;
-        pixelCanvas.height = PIXEL_H * displaySize;
-        pixelCanvas.style.width = (PIXEL_W * displaySize) + 'px';
-        pixelCanvas.style.height = (PIXEL_H * displaySize) + 'px';
-        window.pixelDisplaySize = displaySize;
+    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+    function initSize() {
+        canvas.width = PW * DS;
+        canvas.height = PH * DS;
+        canvas.style.width = (PW * DS) + 'px';
+        canvas.style.height = (PH * DS) + 'px';
     }
 
-    function renderPixelCanvas() {
-        if (!pixelCtx) return;
-        const ds = window.pixelDisplaySize || 2;
-        pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
-        for (let x = 0; x < PIXEL_W; x++) {
-            for (let y = 0; y < PIXEL_H; y++) {
-                const key = `${x}_${y}`;
-                const col = pixelGrid[key];
-                if (col && col !== '#ffffff') {
-                    pixelCtx.fillStyle = col;
-                    pixelCtx.fillRect(x * ds, y * ds, ds, ds);
-                }
+    function render() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const key in grid) {
+            const color = grid[key];
+            if (color && color !== '#ffffff') {
+                const [x, y] = key.split('_').map(Number);
+                ctx.fillStyle = color;
+                ctx.fillRect(x * DS, y * DS, DS, DS);
             }
         }
-        const filled = Object.keys(pixelGrid).length;
-        document.getElementById('pixel-stats').innerHTML = `🎨 Пикселей: ${filled} / 1,048,576 (${Math.round(filled/1048576*100)}%)`;
+        const filled = Object.keys(grid).length;
+        document.getElementById('pixel-stats').innerHTML = `🎨 Пикселей: ${filled} / 1,048,576`;
     }
 
-    function loadPixelData() {
-        pixelRef.once('value', snap => { pixelGrid = snap.val() || {}; renderPixelCanvas(); });
-        pixelRef.on('value', snap => { pixelGrid = snap.val() || {}; renderPixelCanvas(); });
-    }
-
-    function startGlobalCooldown() {
-        if (cooldownInterval) clearInterval(cooldownInterval);
-        canPlacePixel = false;
-        const cdElem = document.getElementById('pixel-cooldown');
-        cdElem.innerHTML = '⏳ Ожидание...';
-        cdElem.style.background = '#ff6600';
-        cooldownRef.once('value').then(snap => {
-            let lastTime = snap.val() || 0;
-            let now = Date.now();
-            let remaining = Math.max(0, 30000 - (now - lastTime));
-            if (remaining <= 0) {
-                canPlacePixel = true;
-                cdElem.innerHTML = '✅ ГОТОВ!';
-                cdElem.style.background = '#00cc44';
-                return;
-            }
-            cooldownSeconds = Math.ceil(remaining / 1000);
-            cdElem.innerHTML = `⏳ Жди... ${cooldownSeconds} сек`;
-            cooldownInterval = setInterval(() => {
-                if (cooldownSeconds <= 0) {
-                    clearInterval(cooldownInterval);
-                    if (!eventClosed) { canPlacePixel = true; cdElem.innerHTML = '✅ ГОТОВ!'; cdElem.style.background = '#00cc44'; }
-                } else {
-                    cdElem.innerHTML = `⏳ Жди... ${cooldownSeconds} сек`;
-                    cooldownSeconds--;
-                }
-            }, 1000);
+    function loadData() {
+        pixelRef.once('value', snap => {
+            grid = snap.val() || {};
+            render();
+        });
+        pixelRef.on('value', snap => {
+            grid = snap.val() || {};
+            render();
         });
     }
 
-    function trySetPixel(x, y) {
-        if (eventClosed) { alert("Ивент завершён, пиксели больше нельзя ставить."); return; }
-        if (!canPlacePixel) { alert(`⏳ Подожди ${cooldownSeconds} секунд!`); return; }
+    function setPixel(x, y) {
         const key = `${x}_${y}`;
-        if (pixelGrid[key] === currentPixelColor) return;
-        cooldownRef.once('value').then(snap => {
-            const lastTime = snap.val() || 0;
-            const now = Date.now();
-            if (now - lastTime < 30000) {
-                const remain = Math.ceil((30000 - (now - lastTime)) / 1000);
-                alert(`⏳ Глобальный кулдаун: ${remain} сек`);
-                startGlobalCooldown();
-                return;
-            }
-            pixelGrid[key] = currentPixelColor;
-            pixelRef.set(pixelGrid).then(() => {
-                cooldownRef.set(now);
-                canPlacePixel = false;
-                startGlobalCooldown();
-                const ds = window.pixelDisplaySize || 2;
-                pixelCtx.fillStyle = currentPixelColor;
-                pixelCtx.fillRect(x * ds, y * ds, ds, ds);
-            });
-        });
+        if (grid[key] === currentColor) return;
+        grid[key] = currentColor;
+        pixelRef.set(grid);
+        // Показываем всплывающую табличку при каждом нажатии
+        showLovePopup();
+        // Мгновенная отрисовка
+        ctx.fillStyle = currentColor;
+        ctx.fillRect(x * DS, y * DS, DS, DS);
+        const filled = Object.keys(grid).length;
+        document.getElementById('pixel-stats').innerHTML = `🎨 Пикселей: ${filled} / 1,048,576`;
     }
 
-    function getPixelCoords(e) {
-        const rect = pixelCanvas.getBoundingClientRect();
-        const scaleX = pixelCanvas.width / rect.width;
-        const scaleY = pixelCanvas.height / rect.height;
+    function getCoords(e) {
+        const rect = canvas.getBoundingClientRect();
+        const sx = canvas.width / rect.width;
+        const sy = canvas.height / rect.height;
         let cx = e.clientX || (e.touches?.[0]?.clientX || 0);
         let cy = e.clientY || (e.touches?.[0]?.clientY || 0);
-        const canvasX = (cx - rect.left) * scaleX;
-        const canvasY = (cy - rect.top) * scaleY;
-        const ds = window.pixelDisplaySize || 2;
-        return { x: Math.floor(canvasX / ds), y: Math.floor(canvasY / ds) };
+        let canX = (cx - rect.left) * sx;
+        let canY = (cy - rect.top) * sy;
+        return { x: Math.floor(canX / DS), y: Math.floor(canY / DS) };
     }
 
-    function onPixelClick(e) {
-        if (eventClosed) { alert("Pixel Point закрыт"); return; }
-        const { x, y } = getPixelCoords(e);
-        if (x >= 0 && x < PIXEL_W && y >= 0 && y < PIXEL_H) trySetPixel(x, y);
-    }
-
-    pixelCanvas.addEventListener('click', onPixelClick);
-    pixelCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); onPixelClick(e); }, {passive:false});
-
-    document.getElementById('btn-clear-pixel').onclick = () => {
-        if (eventClosed) { alert("Ивент завершён"); return; }
-        if (confirm("Очистить ВЕСЬ пиксельный холст 1024x1024? Необратимо!")) {
-            pixelGrid = {};
-            pixelRef.set(pixelGrid);
-            cooldownRef.set(0);
-            canPlacePixel = true;
-            if (cooldownInterval) clearInterval(cooldownInterval);
-            document.getElementById('pixel-cooldown').innerHTML = '✅ ГОТОВ!';
-            document.getElementById('pixel-cooldown').style.background = '#00cc44';
+    function onClick(e) {
+        const { x, y } = getCoords(e);
+        if (x >= 0 && x < PW && y >= 0 && y < PH) {
+            setPixel(x, y);
         }
-    };
-
-    // Переключение между режимами
-    document.getElementById('switch-to-pixel').onclick = () => {
-        pages.overlay.style.display = 'none';
-        pages.pixelOverlay.style.display = 'flex';
-        initPixelMode();
-    };
-    document.getElementById('switch-to-normal').onclick = () => {
-        pages.pixelOverlay.style.display = 'none';
-        pages.overlay.style.display = 'flex';
-        resizeCanvas();
-        redrawAll();
-    };
-
-    function initPixelMode() {
-        initPixelCanvasSize();
-        loadPixelData();
-        startGlobalCooldown();
-        updateDeadline();
-        if (eventClosed) showEventClosedOverlay();
-        else document.getElementById('pixel-closed-overlay')?.remove();
     }
 
-    // палитра для пикселей
+    // ==================== ПАЛИТРА ====================
     document.querySelectorAll('.pixel-color-btn').forEach(btn => {
         btn.onclick = () => {
             document.querySelectorAll('.pixel-color-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            currentPixelColor = btn.dataset.color;
+            currentColor = btn.dataset.color;
         };
     });
     document.querySelector('.pixel-color-btn').classList.add('active');
 
-    // предзагрузка пиксельных данных
-    initPixelCanvasSize();
-    loadPixelData();
+    // ==================== ОЧИСТКА ====================
+    document.getElementById('btn-clear-pixel').onclick = () => {
+        if (confirm("Очистить ВЕСЬ холст 1024x1024?")) {
+            grid = {};
+            pixelRef.set(grid);
+        }
+    };
+
+    // ==================== ЗАПУСК ====================
+    canvas.addEventListener('click', onClick);
+    canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        onClick(e);
+    }, { passive: false });
+
+    initSize();
+    loadData();
+
+    console.log("❤️ Pixel Point готов! Каждый пиксель = 'Миша, я люблю тебя!' ❤️");
 </script>
+
 </body>
 </html>
